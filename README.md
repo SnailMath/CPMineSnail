@@ -22,6 +22,7 @@ CPMineSnail is a Minesweeper-clone for the calculator Classpad II using the holl
 
 ## How to compile
 - install the hollyhock-2 stuff https://github.com/SnailMath/hollyhock-2
+- download `calc.cpp` and `calc.hpp` form github.com/SnailMath/CPappTemplate
 - run `make hhk` to compile the calculator version
 - install libsdl2 and run `make pc` to compile the pc version (Tested on Linux and on WSL2)
 - run `make all` to make both of them.
