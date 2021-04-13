@@ -1,0 +1,6 @@
+*.o
+*.hhk
+*.elf
+calc.cpp
+calc.hpp
+sdl.txt

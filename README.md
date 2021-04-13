@@ -22,10 +22,16 @@ CPMineSnail is a Minesweeper-clone for the calculator Classpad II using the holl
 
 ## How to compile
 - install the hollyhock-2 stuff https://github.com/SnailMath/hollyhock-2
-- download `calc.cpp` and `calc.hpp` form github.com/SnailMath/CPappTemplate
+- use `git clone --recursive https://github.com/SnailMath/CPMineSnail` to clone this repo
 - run `make hhk` to compile the calculator version
 - install libsdl2 and run `make pc` to compile the pc version (Tested on Linux and on WSL2)
 - run `make all` to make both of them.
 
+## Info
+- when you want to run the .elf version under windows using wsl2, you need to install an x-server as well, for example xming.
+- download and install xming
+- add `export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0`, `export LIBGL_ALWAYS_INDIRECT=0` and `'/mnt/c/Program Files (x86)/Xming/Xming.exe' -ac -multiwindow 2> /dev/null &` to your ~/.bashrc file
+- reopen your terminal (e.g. Ubuntu for windows) and execute ./_MineSnail.elf 
+
 ## Questions?
-ask here: https://discord.gg/y8Mr8tD
+ask here: https://discord.gg/y8Mr8tDA

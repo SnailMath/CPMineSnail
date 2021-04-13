@@ -40,30 +40,36 @@ LD_FLAGS:=-nostdlib --no-undefined
 READELF:=sh4-elf-readelf
 OBJCOPY:=sh4-elf-objcopy
 
-AS_SOURCES:=$(wildcard *.s)
-CC_SOURCES:=$(wildcard *.c)
-CXX_SOURCES:=$(wildcard *.cpp)
-H_INC:=$(wildcard *.h) 
-HPP_INC:=$(wildcard *.hpp)
+#AS_SOURCES:=$(wildcard *.s)
+AS_SOURCES:=
+#CC_SOURCES:=$(wildcard *.c)
+CC_SOURCES:=
+#CXX_SOURCES:=$(wildcard *.cpp)
+CXX_SOURCES:=main.cpp calc.cpp
+#H_INC:=$(wildcard *.h) 
+H_INC:=options.h
+#HPP_INC:=$(wildcard *.hpp)
+HPP_INC:=calc.hpp
 OBJECTS:=$(AS_SOURCES:.s=.o) $(CC_SOURCES:.c=.o) $(CXX_SOURCES:.cpp=.o)
 
 APP_PC:=_$(APP_NAME).elf
 
 APP_ELF:=$(APP_NAME).hhk
 
-all: pc hhk
+all: hhk pc
 
-pc: $(APP_PC) Makefile calc.cpp
+pc: calc.cpp Makefile $(APP_PC)
 
-hhk: $(APP_ELF) Makefile calc.cpp
+hhk: calc.cpp Makefile $(APP_ELF)
 
 clean:
 	rm -f $(OBJECTS) $(APP_ELF) $(APP_PC)
+	rm -f calc.cpp calc.hpp
 
-$(APP_PC):  $(CC_SOURCES) $(CXX_SOURCES) $(H_INC) $(HPP_INC)
+$(APP_PC):  $(CC_SOURCES) $(CXX_SOURCES) $(H_INC) $(HPP_INC) calc.cpp calc.hpp sdl.txt
 	$(C_PC) $(CC_SOURCES) $(CXX_SOURCES) -o $(APP_PC) $(C_PC_FLAGS)
 
-$(APP_ELF): $(OBJECTS) $(SDK_DIR)/sdk.o linker.ld
+$(APP_ELF): $(OBJECTS) $(SDK_DIR)/sdk.o linker.ld calc.cpp calc.hpp
 	$(LD) -T linker.ld -o $@ $(LD_FLAGS) $(OBJECTS) $(SDK_DIR)/sdk.o
 	$(OBJCOPY) --set-section-flags .hollyhock_name=contents,strings,readonly $(APP_ELF) $(APP_ELF)
 	$(OBJCOPY) --set-section-flags .hollyhock_description=contents,strings,readonly $(APP_ELF) $(APP_ELF)
@@ -93,7 +99,16 @@ $(SDK_DIR)/sdk.o:
 
 #tell make that 'all' 'clean' 'hhk' and 'pc' are not actually files.
 
-#tell the user to download calc.cpp
+#link calc.cpp and calc.hpp from the submodule CPappTemplate
+#CPappTemplate must be in the folder, but git clone does this automatically.
 calc.cpp:
-	echo 'You need to download `calc.cpp` and `calc.hpp` from `github.com/SnailMath/CPappTemplate`. '
+	ln -s CPappTemplate/calc.cpp calc.cpp
+calc.hpp:
+	ln -s CPappTemplate/calc.hpp calc.hpp
+sdl.txt:
+	echo You need to install libsdl2-dev before compiling the pc version. > sdl.txt
+	#
+	# make sure to "apt install libsdl2-dev"
+	#
+	
 .PHONY: all clean hhk pc

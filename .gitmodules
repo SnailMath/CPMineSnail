@@ -1,0 +1,3 @@
+[submodule "CPappTemplate"]
+	path = CPappTemplate
+	url = https://github.com/SnailMath/CPappTemplate
